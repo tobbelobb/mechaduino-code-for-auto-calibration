@@ -10,7 +10,7 @@
 
   Many thanks to all contributors!
   --------------------------------------------------------------
-  
+
   Controlled via a SerialUSB terminal at 115200 baud.
 
   Implemented serial commands are:
@@ -51,30 +51,32 @@
 //////////////////////////////////////
 
 
+
 void setup()        // This code runs once at startup
-{                         
-   
-  digitalWrite(ledPin,HIGH);        // turn LED on 
+{
+
+  digitalWrite(ledPin,HIGH);        // turn LED on
   setupPins();                      // configure pins
   setupTCInterrupts();              // configure controller interrupt
 
-  SerialUSB.begin(115200);          
-  delay(3000);                      // This delay seems to make it easier to establish a connection when the Mechaduino is configured to start in closed loop mode.  
+  SerialUSB.begin(115200);
+  delay(3000);                      // This delay seems to make it easier to establish a connection when the Mechaduino is configured to start in closed loop mode.
   serialMenu();                     // Prints menu to serial monitor
   setupSPI();                       // Sets up SPI for communicating with encoder
-  digitalWrite(ledPin,LOW);         // turn LED off 
-  
+  setupI2C();
+  digitalWrite(ledPin,LOW);         // turn LED off
+
 
   // Uncomment the below lines as needed for your application.
   // Leave commented for initial calibration and tuning.
-  
-  //    configureStepDir();           // Configures setpoint to be controlled by step/dir interface
+
+  configureStepDir();           // Configures setpoint to be controlled by step/dir interface
   //    configureEnablePin();         // Active low, for use wath RAMPS 1.4 or similar
-  //     enableTCInterrupts();         // uncomment this line to start in closed loop 
-  //    mode = 'x';                   // start in position mode
+  enableTCInterrupts();         // uncomment this line to start in closed loop
+  mode = 'x';                   // start in position mode
 
 }
-  
+
 
 
 //////////////////////////////////////

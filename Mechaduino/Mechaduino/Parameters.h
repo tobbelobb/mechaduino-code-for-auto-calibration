@@ -59,6 +59,10 @@ extern const int sin_1[];
 #define step_pin 1
 #define dir_pin 0
 #define enable_pin 2
+#define torque_mode_pin 3
+
+#define sda_pin 20
+#define scl_pin 21
 
 //for faster digitalWrite:
 #define IN_1_HIGH() (REG_PORT_OUTSET0 = PORT_PA06)
@@ -76,7 +80,7 @@ extern const int sin_1[];
 
 #define ENABLE_PROFILE_IO    // Define to enable profiling I/O pins
 
-#ifdef ENABLE_PROFILE_IO  
+#ifdef ENABLE_PROFILE_IO
   #define TEST1   3
 
   #define TEST1_HIGH() (REG_PORT_OUTSET0 = PORT_PA09)
@@ -84,7 +88,7 @@ extern const int sin_1[];
 
 #else
   #define TEST1_HIGH()
-  #define TEST1_LOW() 
+  #define TEST1_LOW()
 #endif
 
 
