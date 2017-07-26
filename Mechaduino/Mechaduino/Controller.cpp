@@ -14,17 +14,6 @@ void TC5_Handler() {                // gets called with FPID frequency
   static char prev_mode;
 
   if (TC5->COUNT16.INTFLAG.bit.OVF == 1) {    // A counter overflow caused the interrupt
-    if(prev_mode != mode){
-      if(prev_mode == 'x' && mode == 't'){
-        // Save position so we can know how far we've travelled while in torque mode
-        yw_ref = yw;
-      } else if(prev_mode == 't' && mode == 'x'){
-        // Set desired position to where we are right now, giving position mode a still start
-        r = yw;
-      }
-      prev_mode = mode;
-    }
-
     //TEST1_HIGH();  //digitalWrite(3, HIGH);       //Fast Write to Digital 3 for debugging
 
     y = lookup[readEncoder()];                    //read encoder and lookup corrected angle in calibration lookup table

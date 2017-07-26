@@ -58,7 +58,9 @@ void giveAngle(){
 }
 
 void set_yw_ref(int numBytes){
-  yw_ref = yw;
+  if(numBytes == 1 && Wire.read() == 1){
+    yw_ref = yw;
+  }
 }
 
 // There's only three types of interactions on the i2c line:
@@ -90,10 +92,10 @@ void configureEnablePin() {
 }
 
 void modeChangeInterrupt() {
-  if (REG_PORT_IN0 & PORT_PA09){ // check if torque_mode_pin (D3) is HIGH
+  if (digitalRead(torque_mode_pin) == HIGH){ // check if torque_mode_pin (D3) is HIGH
     mode = 't';                // Enter torque mode
   }else{
-    r = lookup[readEncoder()]; // Set pos/vel setpoint to current position
+    r = yw;                    // Set pos/vel setpoint to current position
     mode = 'x';                // Enter position mode
   }
 }

@@ -14,6 +14,8 @@
 
   void configureEnablePin();        //configure enable pin
 
+  void configureModeChange();
+
 	void stepInterrupt();             //step interrupt handler
 
   void dirInterrupt();              //dir interrupt handler
