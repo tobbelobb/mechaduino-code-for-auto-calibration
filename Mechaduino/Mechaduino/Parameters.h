@@ -78,7 +78,7 @@ extern const int sin_1[];
 #define CHIPSELECT_HIGH() (REG_PORT_OUTSET1 = PORT_PB09)
 #define CHIPSELECT_LOW() (REG_PORT_OUTCLR1 = PORT_PB09)
 
-#define ENABLE_PROFILE_IO    // Define to enable profiling I/O pins
+//#define ENABLE_PROFILE_IO    // Define to enable profiling I/O pins
 
 #ifdef ENABLE_PROFILE_IO
   #define TEST1   3

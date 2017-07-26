@@ -58,10 +58,6 @@ void giveAngle(){
 }
 
 void set_yw_ref(int numBytes){
-  if(mode != 't'){
-    mode = 't';
-    delay(3000);
-  }
   yw_ref = yw;
 }
 
@@ -69,8 +65,8 @@ void set_yw_ref(int numBytes){
 //  * RAMPS tells Mechaduino to zero its position (fixate its reference)
 //  * RAMPS asks Mechaduino to send current position
 void setupI2C() {
-  pinMode(sda_pin, INPUT);  // SDA
-  pinMode(scl_pin, OUTPUT); // SCL
+  //pinMode(sda_pin, INPUT);  // SDA explicit pin setup should not be needed
+  //pinMode(scl_pin, OUTPUT); // SCL
   Wire.begin(0x2c); // address 0x2c chosen because similar to "i2c". In decimal: 44
   Wire.onRequest(giveAngle);
   Wire.onReceive(set_yw_ref);
