@@ -5,7 +5,7 @@
 
 volatile int U = 0;       //control effort (abs)
 volatile float r = 0.0;   //setpoint
-volatile float torque = 40.0;   //torque setpoint
+volatile float torque = -40.0;   //torque setpoint
 volatile float y = 0.0;   // measured angle
 volatile float v = 0.0;  // estimated velocity  (velocity loop)
 volatile float yw = 0.0;  // "wrapped" angle (not limited to 0-360)
