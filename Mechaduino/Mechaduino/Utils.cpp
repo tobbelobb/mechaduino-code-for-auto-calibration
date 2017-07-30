@@ -78,6 +78,7 @@ void handle_cmd(int numBytes){
           mode = 'x';
         } else if(fabs(requested_torque.fval < 255.0)) {
           torque = requested_torque.fval;
+          mode = 't';
         } // TODO: Don't know if positive torques are ever desired... Filter them out?
       }
     } else if(cmd == 0x60){ // 96 in hexadecimal is 0x60
