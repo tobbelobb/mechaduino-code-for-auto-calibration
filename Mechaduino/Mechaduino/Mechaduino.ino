@@ -64,7 +64,6 @@ void setup()        // This code runs once at startup
   serialMenu();                     // Prints menu to serial monitor
   setupSPI();                       // Sets up SPI for communicating with encoder
   setupI2C();
-  configureModeChange();
   digitalWrite(ledPin,LOW);         // turn LED off
 
 

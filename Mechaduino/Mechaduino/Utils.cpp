@@ -28,6 +28,7 @@ void setupPins() {
 
   pinMode(ledPin, OUTPUT); //
 
+  // Commented out because Wire library handles this
   // pinMode(clockPin, OUTPUT); // SCL    for I2C
   // pinMode(inputPin, INPUT); // SDA
 
@@ -54,24 +55,47 @@ void setupSPI() {
 
 void giveAngle(){
   float ang = yw - yw_ref;
-  Wire.write((byte*)&ang, 4); // TODO: Does mechaduino use 32 bit floats?
+  Wire.write((byte*)&ang, 4);
 }
 
-void set_yw_ref(int numBytes){
-  if(numBytes == 1 && Wire.read() == 1){
-    yw_ref = yw;
+void handle_cmd(int numBytes){
+  if(numBytes >= 1){
+    uint8_t cmd = Wire.read();
+    if(cmd == 0x5f){ // 95 in hexadecimal is 0x5f
+      if(numBytes == 5){ // Should receive a float upon G95
+        union {
+          uint8_t b[4]; // hard coded 4 instead of sizeof(float)
+          float fval;
+        } requested_torque;
+
+        int i = 0;
+        while(Wire.available()){
+          requested_torque.b[i] = Wire.read();
+          i++;
+        }
+        if(fabs(requested_torque.fval < 0.01)){
+          r = yw;  // Set pos/vel setpoint to current position
+          mode = 'x';
+        } else if(fabs(requested_torque.fval < 255.0)) {
+          torque = requested_torque.fval;
+        } // TODO: Don't know if positive torques are ever desired... Filter them out?
+      }
+    } else if(cmd == 0x60){ // 96 in hexadecimal is 0x60
+      yw_ref = yw;
+    }
   }
 }
 
 // There's only three types of interactions on the i2c line:
-//  * RAMPS tells Mechaduino to zero its position (fixate its reference)
-//  * RAMPS asks Mechaduino to send current position
+//  * RAMPS tells Mechaduino to go into torque mode or go into position mode
+//  * RAMPS tells Mechaduino to fixate its reference angle
+//  * RAMPS requests current angle of Mechaduino (relative to reference angle)
 void setupI2C() {
   //pinMode(sda_pin, INPUT);  // SDA explicit pin setup should not be needed
   //pinMode(scl_pin, OUTPUT); // SCL
-  Wire.begin(0x2c); // address 0x2c chosen because similar to "i2c". In decimal: 44
+  Wire.begin(I2C_ID);
   Wire.onRequest(giveAngle);
-  Wire.onReceive(set_yw_ref);
+  Wire.onReceive(handle_cmd);
 }
 
 void configureStepDir() {
@@ -81,23 +105,9 @@ void configureStepDir() {
   attachInterrupt(dir_pin, dirInterrupt, CHANGE);
 }
 
-void configureModeChange() {
-  pinMode(torque_mode_pin, INPUT);
-  attachInterrupt(torque_mode_pin, modeChangeInterrupt, CHANGE);
-}
-
 void configureEnablePin() {
   pinMode(enable_pin, INPUT);
   attachInterrupt(enable_pin, enableInterrupt, CHANGE);
-}
-
-void modeChangeInterrupt() {
-  if (digitalRead(torque_mode_pin) == HIGH){ // check if torque_mode_pin (D3) is HIGH
-    mode = 't';                // Enter torque mode
-  }else{
-    r = yw;                    // Set pos/vel setpoint to current position
-    mode = 'x';                // Enter position mode
-  }
 }
 
 void stepInterrupt() {

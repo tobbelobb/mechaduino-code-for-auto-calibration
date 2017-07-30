@@ -59,10 +59,11 @@ extern const int sin_1[];
 #define step_pin 1
 #define dir_pin 0
 #define enable_pin 2
-#define torque_mode_pin 3
 
 #define sda_pin 20
 #define scl_pin 21
+
+#define I2C_ID 0x0a
 
 //for faster digitalWrite:
 #define IN_1_HIGH() (REG_PORT_OUTSET0 = PORT_PA06)
