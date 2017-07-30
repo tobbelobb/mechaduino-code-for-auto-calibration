@@ -73,10 +73,10 @@ void handle_cmd(int numBytes){
           requested_torque.b[i] = Wire.read();
           i++;
         }
-        if(fabs(requested_torque.fval < 0.01)){
+        if(fabs(requested_torque.fval) < 0.01){
           r = yw;  // Set pos/vel setpoint to current position
           mode = 'x';
-        } else if(fabs(requested_torque.fval < 255.0)) {
+        } else if(fabs(requested_torque.fval) < 255.0) {
           torque = requested_torque.fval;
           mode = 't';
         } // TODO: Don't know if positive torques are ever desired... Filter them out?
