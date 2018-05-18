@@ -25,7 +25,7 @@ const int spr = 200;                // 200 steps per revolution  -- for 400 step
 const float aps = 360.0/ spr;       // angle per step
 int cpr = 16384;                    // counts per rev
 const float stepangle = aps/16.0;   // for step/dir interrupt: aps/16 is the equivalent of 1/16 microsteps
-volatile float PA = aps;            // Phase advance...aps = 1.8 for 200 steps per rev, 0.9 for 400
+volatile float PA = aps*0.8;            // Phase advance...aps = 1.8 for 200 steps per rev, 0.9 for 400
 /* Be careful when adjusting iMAX.
  * While the A4954 driver is rated for 2.0A peak currents, it cannot handle these currents continuously.
  * Depending on how you operate the Mechaduino, you may be able to safely raise iMAX.
