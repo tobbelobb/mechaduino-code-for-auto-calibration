@@ -62,6 +62,7 @@ void setup() {
   //    configureEnablePin();         // Active low, for use wath RAMPS 1.4 or similar
   enableTCInterrupts();         // uncomment this line to start in closed loop
   mode = 'x';                   // start in position mode
+  r = lookup[readEncoder()];
 }
 
 void loop() {
