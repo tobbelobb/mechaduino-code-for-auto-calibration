@@ -6,9 +6,9 @@
 
 /* Current Parameters */
 volatile float Fs = 6500.0;  // Sample frequency (Hz)
-volatile float pKp = 7.0;   // Position mode PID values.
-volatile float pKi = 0.2;
-volatile float pKd = 250.1;
+volatile float pKp = 2.0;   // Position mode PID values.
+volatile float pKi = 0.004;
+volatile float pKd = 5.0;
 volatile float pLPF = 30;    // Break frequency (Hz)
 volatile float vKp = 0.001;  // Velocity mode PID values.
 volatile float vKi = 0.001;
@@ -34,12 +34,12 @@ const int spr = 200;                // 200 steps per revolution  -- for 400 step
 const float aps = 360.0/ spr;       // angle per step
 int cpr = 16384;                    // counts per rev
 const float stepangle = aps/16.0;   // for step/dir interrupt: aps/16 is the equivalent of 1/16 microsteps
-volatile float PA = aps*0.7;            // Phase advance...aps = 1.8 for 200 steps per rev, 0.9 for 400
+volatile float PA = aps*0.9;            // Phase advance...aps = 1.8 for 200 steps per rev, 0.9 for 400
 /* Be careful when adjusting iMAX.
  * While the A4954 driver is rated for 2.0A peak currents, it cannot handle these currents continuously.
  * Depending on how you operate the Mechaduino, you may be able to safely raise iMAX.
  * Please refer to the A4954 datasheet for more info */
-const float iMAX = 0.6;
+const float iMAX = 0.9;
 const float rSense = 0.150;
 volatile int uMAX = (255/3.3)*(iMAX*10*rSense);   // 255 for 8-bit pwm, 1023 for 10 bit, must also edit analogFastWrite
 /* A sine lookup table is faster than using the built in sin()function for motor commutation.
